@@ -1,0 +1,83 @@
+# version: 1.0
+
+import numpy as np
+
+
+def read_bin_file(file_name, config, mode=0):
+    """
+    for bin data use
+    :param file_name: string
+                    Input file name
+
+    :param config: sequence of ints
+                    Radar config in the order
+                    [0]: frames number
+                    [1]: samples number
+                    [2]: chirps number
+                    [3]: transmit antenna number
+                    [4]: receive antenna number
+
+    :param mode: int, optional
+                    Select radar EVM, default is 0
+                    0: XWR1443
+                    1: XWR1843
+
+    :return: complex array
+                    Return data cube depends on mode
+                    data cube [frame, chirp, sample, channel]
+    """
+    # Read file
+    data = np.fromfile(file_name, dtype=np.int16)
+    frame = config[0]
+    sample = config[1]
+    chirp = config[2]
+    tx_num = config[3]
+    rx_num = config[4]
+
+    if mode == 0:
+        data = np.reshape(data, [-1, 8])
+        data = data[:, 0:4:] + 1j * data[:, 4::]
+        if rx_num == 4:
+            cdata1 = np.reshape(data[:, 0], [frame, chirp, tx_num, sample])
+            cdata1 = np.transpose(cdata1, [0, 1, 3, 2])  # frame, chirp, sample, channel
+            cdata2 = np.reshape(data[:, 1], [frame, chirp, tx_num, sample])
+            cdata2 = np.transpose(cdata2, [0, 1, 3, 2])  # frame, chirp, sample, channel
+            cdata3 = np.reshape(data[:, 2], [frame, chirp, tx_num, sample])
+            cdata3 = np.transpose(cdata3, [0, 1, 3, 2])  # frame, chirp, sample, channel
+            cdata4 = np.reshape(data[:, 3], [frame, chirp, tx_num, sample])
+            cdata4 = np.transpose(cdata4, [0, 1, 3, 2])  # frame, chirp, sample, channel
+
+            if tx_num == 3:
+                cdata = np.concatenate((cdata1, cdata2, cdata3, cdata4), axis=3)
+                return cdata  # frame, chirp, sample, channel
+
+            elif tx_num == 1:
+                cdata = np.array([cdata1[:, :, :, 0], cdata2[:, :, :, 0], cdata3[:, :, :, 0], cdata4[:, :, :, 0]])
+                cdata = np.transpose(cdata, [1, 2, 3, 0])
+                return cdata  # frame, chirp, sample, channel
+
+    elif mode == 1:  # testing
+        data = np.reshape(data, [-1, 4])
+        data = data[:, 0:2:] + 1j * data[:, 2::]
+        data = np.reshape(data, [frame, chirp, tx_num, rx_num, sample])
+        if rx_num == 4:
+            cdata1 = data[:, :, :, 0, :]
+            cdata1 = np.transpose(cdata1, [0, 1, 3, 2])
+            cdata2 = data[:, :, :, 1, :]
+            cdata2 = np.transpose(cdata2, [0, 1, 3, 2])
+            cdata3 = data[:, :, :, 2, :]
+            cdata3 = np.transpose(cdata3, [0, 1, 3, 2])
+            cdata4 = data[:, :, :, 3, :]
+            cdata4 = np.transpose(cdata4, [0, 1, 3, 2])
+
+            if tx_num == 3:
+                cdata = np.concatenate((cdata1, cdata2, cdata3, cdata4), axis=3)
+                return cdata  # frame, chirp, sample, channel
+
+            elif tx_num == 1:
+                cdata = np.array([cdata1[:, :, :, 0], cdata2[:, :, :, 0], cdata3[:, :, :, 0], cdata4[:, :, :, 0]])
+                cdata = np.transpose(cdata, [1, 2, 3, 0])
+                return cdata  # frame, chirp, sample, channel
+
+    else:
+        raise ValueError
