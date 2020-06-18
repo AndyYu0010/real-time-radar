@@ -1,5 +1,5 @@
 # Real-time-radar
-Python program used to control the TI mmWave radar **XWR1843 EVM** and data catch board ***DCA1000 EVM***, streaming out the 
+Python program used to control the TI mmWave radar ***XWR1843 EVM*** and data catch board ***DCA1000 EVM***, streaming out the 
 adc samples data from DCA1000. Real time processes the adc data and generate Range-Doppler and Range-Angle
 images.
 
