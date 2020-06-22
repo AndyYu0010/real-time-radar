@@ -157,7 +157,7 @@ sockConfig.bind(config_address)
 for k in range(5):
     # Send the command
     sockConfig.sendto(send_cmd(cmd_order[k]), FPGA_address_cfg)
-    time.sleep(0.5)
+    time.sleep(0.1)
     # Request data back on the config port
     msg, server = sockConfig.recvfrom(2048)
     print('receive command:', msg.hex())
@@ -172,6 +172,9 @@ plotIMAGE.start()
 
 sockConfig.sendto(send_cmd('6'), FPGA_address_cfg)
 sockConfig.close()
+collector.join(timeout=1)
+processor.join(timeout=1)
+
 
 print("Program close")
 sys.exit()

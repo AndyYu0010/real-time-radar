@@ -1,11 +1,7 @@
 # collect data from TI DCA1000 EVM
 
-import threading as th
-import numpy as np
-import socket
 import serial
 import time
-from queue import Queue
 
 
 # Radar EVM setting
