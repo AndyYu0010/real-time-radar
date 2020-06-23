@@ -75,6 +75,7 @@ class DataProcessor(th.Thread):
 
         :param rai_queue: queue object
                         A queue for store RDI
+
         """
         th.Thread.__init__(self, name=name)
         self.adc_sample = config[0]
