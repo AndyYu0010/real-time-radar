@@ -48,8 +48,12 @@ def read_bin_file(file_name, config, mode=0):
             cdata4 = np.transpose(cdata4, [0, 1, 3, 2])  # frame, chirp, sample, channel
 
             if tx_num == 3:
-                cdata = np.concatenate((cdata1, cdata2, cdata3, cdata4), axis=3)
-                return cdata  # frame, chirp, sample, channel
+                cdata = np.array([cdata1[:, :, :, 0], cdata2[:, :, :, 0], cdata3[:, :, :, 0], cdata4[:, :, :, 0],
+                                  cdata1[:, :, :, 1], cdata2[:, :, :, 1], cdata3[:, :, :, 1], cdata4[:, :, :, 1],
+                                  cdata1[:, :, :, 2], cdata2[:, :, :, 2], cdata3[:, :, :, 2], cdata4[:, :, :, 2]])
+                cdata = np.transpose(cdata, [1, 2, 3, 0])
+                # cdata = np.concatenate([cdata1, cdata2, cdata3, cdata4], axis=3)
+                return cdata  # frame, chirp, sample, channel(tx1,tx2,tx3)
 
             elif tx_num == 1:
                 cdata = np.array([cdata1[:, :, :, 0], cdata2[:, :, :, 0], cdata3[:, :, :, 0], cdata4[:, :, :, 0]])
