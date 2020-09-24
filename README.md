@@ -10,10 +10,10 @@ images.
 * pyqt5
 
 ## Program Functions
-* send_cmd(): Send command to DCA1000.
+* send_cmd(): Send command to ***DCA1000***.
 * update_figure(): Refresh RDI and RAI.
 * plot(): Create QTgui ogject to plot RDI and RAI.
-* UdpListener(): Streaming out adc samples from DCA1000.
+* UdpListener(): Streaming out adc samples from ***DCA1000***.
 * DataProcessor(): Processing adc samples to generate RDI and RAI.
 * SerialConfig(): Config XWR1843 EVM.
 
@@ -30,6 +30,7 @@ Execute by the following steps:
 
 ## Contact
 Jih-Tsun Yu E-mail:t108368020@ntut.org.tw
+
 
 ## Acknowledgement
 Thanks for TI, TI's e2e forum, and other people work on mmWave Radar make this happen.
