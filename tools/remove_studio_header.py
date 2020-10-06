@@ -7,7 +7,7 @@ def remove_header(filename, packet_num):
     :param filename: string
                     Input file name
 
-    :packet_num: int
+    :param packet_num: int
                     Number of Packet
                     1441: 1 tx
                     2881: 2 tx
@@ -21,4 +21,3 @@ def remove_header(filename, packet_num):
         index.append([j, j + 1, j + 2, j + 3, j + 4, j + 5, j + 6])
     output = np.delete(bin_data, index)
     return output
-
