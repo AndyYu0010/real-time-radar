@@ -67,19 +67,24 @@ def send_cmd(code):
 
 
 def update_figure():
-    global img_rdi, img_rai, updateTime
+    global img_rdi, img_rai, updateTime, view_text, count
+    count += 1
     img_rdi.setImage(RDIData.get()[:, :, 0].T, axis=1)
     img_rai.setImage(RAIData.get()[0, :, :].T, axis=1)
+    view_text.setText("Frame No.: " + str(count))
     QtCore.QTimer.singleShot(1, update_figure)
     now = ptime.time()
     updateTime = now
 
 
-def plot(cfg):
-    global img_rdi, img_rai, updateTime
+def plot(cfg, port):
+    global img_rdi, img_rai, updateTime, view_text, count
+    count = 0
     app = QtGui.QApplication([])
     win = pg.GraphicsLayoutWidget()
     win.show()
+    # view_text = win.addViewBox()
+    view_text = win.addLabel("hello")
     view_rdi = win.addViewBox()
     view_rai = win.addViewBox()
     # lock the aspect ratio so pixels are always square
@@ -123,7 +128,7 @@ def plot(cfg):
     view_rdi.setRange(QtCore.QRectF(0, 0, 128, 128))
     view_rdi.setRange(QtCore.QRectF(0, 0, 128, 128))
     updateTime = ptime.time()
-    tt = SerialConfig(name='ConnectRadar', CLIPort='COM26', BaudRate=115200)
+    tt = SerialConfig(name='ConnectRadar', CLIPort=port, BaudRate=115200)
     tt.StopRadar()
     tt.SendConfig(cfg)
 
@@ -164,10 +169,10 @@ for k in range(5):
 
 collector = UdpListener('Listener', BinData, frame_length, address, buff_size)
 processor = DataProcessor('Processor', radar_config, BinData, RDIData, RAIData)
-config = './config/IWR1843_cfg.cfg'
+config = '../config/IWR1843_cfg.cfg'
 collector.start()
 processor.start()
-plotIMAGE = threading.Thread(target=plot(config))
+plotIMAGE = threading.Thread(target=plot(config, port='COM4'))
 plotIMAGE.start()
 
 sockConfig.sendto(send_cmd('6'), FPGA_address_cfg)
