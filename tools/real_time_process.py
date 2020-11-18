@@ -43,7 +43,8 @@ class UdpListener(th.Thread):
         # main loop
         while True:
             data, addr = data_socket.recvfrom(self.buff_size)
-            np_data.extend(np.frombuffer(data, dtype=dt)[5:])
+            data = data[10:]
+            np_data.extend(np.frombuffer(data, dtype=dt))
             # while np_data length exceeds frame length, do following
             if len(np_data) >= self.frame_length:
                 count_frame += 1
@@ -94,7 +95,6 @@ class DataProcessor(th.Thread):
             data = data[:, 0:2:] + 1j * data[:, 2::]
             data = np.reshape(data, [self.chirp_num, -1, self.adc_sample])
             data = data.transpose([0, 2, 1])
-            np.save("D:/pycharm_progject/real-time-radar/data/Real_time_data/Frame" + str(frame_count + 1), data)
             frame_count += 1
             rdi = DSP.Range_Doppler(data, mode=1, padding_size=[128, 64])
             rai = DSP.Range_Angle(data, mode=1, padding_size=[128, 64, 32])
