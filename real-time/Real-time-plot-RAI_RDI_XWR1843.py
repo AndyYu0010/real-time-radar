@@ -126,7 +126,7 @@ def plot(cfg, port):
     view_rai.addItem(img_rai)
     # Set initial view bounds
     view_rdi.setRange(QtCore.QRectF(0, 0, 128, 128))
-    view_rdi.setRange(QtCore.QRectF(0, 0, 128, 128))
+    view_rai.setRange(QtCore.QRectF(0, 0, 128, 128))
     updateTime = ptime.time()
     tt = SerialConfig(name='ConnectRadar', CLIPort=port, BaudRate=115200)
     tt.StopRadar()
