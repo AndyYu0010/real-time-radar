@@ -48,7 +48,7 @@ class UdpListener(th.Thread):
             # while np_data length exceeds frame length, do following
             if len(np_data) >= self.frame_length:
                 count_frame += 1
-                print("Frame No.", count_frame)
+                # print("Frame No.", count_frame)
                 # put one frame data into bin data array
                 self.bin_data.put(np_data[0:self.frame_length])
                 # remove one frame length data from array
