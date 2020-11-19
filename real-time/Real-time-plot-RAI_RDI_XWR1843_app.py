@@ -66,7 +66,7 @@ def send_cmd(code):
         re = stop_record
     else:
         re = 'NULL'
-    print('send command:', re.hex())
+    # print('send command:', re.hex())
     return re
 
 
@@ -176,7 +176,7 @@ for k in range(5):
     time.sleep(0.1)
     # Request data back on the config port
     msg, server = sockConfig.recvfrom(2048)
-    print('receive command:', msg.hex())
+    # print('receive command:', msg.hex())
 
 collector = UdpListener('Listener', BinData, frame_length, address, buff_size)
 processor = DataProcessor('Processor', radar_config, BinData, RDIData, RAIData)
