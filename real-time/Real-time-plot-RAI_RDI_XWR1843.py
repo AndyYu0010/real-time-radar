@@ -71,7 +71,7 @@ def update_figure():
     count += 1
     img_rdi.setImage(RDIData.get()[:, :, 0].T, axis=1)
     img_rai.setImage(RAIData.get()[0, :, :].T, axis=1)
-    view_text.setText("Frame No.: " + str(count))
+    view_text.setText("Frame No: " + str(count), color=(128, 150, 0))
     QtCore.QTimer.singleShot(1, update_figure)
     now = ptime.time()
     updateTime = now
@@ -81,10 +81,10 @@ def plot(cfg, port):
     global img_rdi, img_rai, updateTime, view_text, count
     count = 0
     app = QtGui.QApplication([])
-    win = pg.GraphicsLayoutWidget()
+    win = pg.GraphicsLayoutWidget(title="Real-Time Radar", size=(1500, 768))
     win.show()
     # view_text = win.addViewBox()
-    view_text = win.addLabel("hello")
+    view_text = win.addLabel("Frane No: ", size='24pt')
     view_rdi = win.addViewBox()
     view_rai = win.addViewBox()
     # lock the aspect ratio so pixels are always square
@@ -92,6 +92,7 @@ def plot(cfg, port):
     view_rai.setAspectLocked(True)
     img_rdi = pg.ImageItem(border='w')
     img_rai = pg.ImageItem(border='w')
+
     # Colormap
     position = np.arange(64)
     position = position / 64
@@ -125,8 +126,9 @@ def plot(cfg, port):
     view_rdi.addItem(img_rdi)
     view_rai.addItem(img_rai)
     # Set initial view bounds
-    view_rdi.setRange(QtCore.QRectF(0, 0, 128, 128))
-    view_rai.setRange(QtCore.QRectF(0, 0, 128, 128))
+    view_rdi.setRange(QtCore.QRectF(0, 0, 128, 64))
+    view_rai.setRange(QtCore.QRectF(0, 0, 32, 64))
+
     updateTime = ptime.time()
     tt = SerialConfig(name='ConnectRadar', CLIPort=port, BaudRate=115200)
     tt.StopRadar()
@@ -172,6 +174,7 @@ processor = DataProcessor('Processor', radar_config, BinData, RDIData, RAIData)
 config = '../config/IWR1843_cfg.cfg'
 collector.start()
 processor.start()
+
 plotIMAGE = threading.Thread(target=plot(config, port='COM4'))
 plotIMAGE.start()
 
@@ -179,7 +182,6 @@ sockConfig.sendto(send_cmd('6'), FPGA_address_cfg)
 sockConfig.close()
 collector.join(timeout=1)
 processor.join(timeout=1)
-
 
 print("Program close")
 sys.exit()
