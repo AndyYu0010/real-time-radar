@@ -23,7 +23,7 @@ Execute by the following steps:
    1. Use TI's tool "UniFlash" flash the radar EVM, make sure that the radar EVM is running with demo firmware.
    2. Check and modify the config COM Port of radar EVM.
    3. Check the host IP is 192.168.33.30.
-   4. Execute IWR1843_real_time_plot_RDI_RAI.py
+   4. Execute IWR1843_real_time_plot_RDI_RAI_app.py
 
 ## Demo 
 ![](Demo.PNG)
