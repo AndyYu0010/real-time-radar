@@ -1,4 +1,4 @@
-# Real-time-radar
+# Real Time Data Capture Tool of mmWave Radar in Python
 This is a real-time ADC sample capture tool to obtain the raw data of TI mmWave radar ***XWR1843 EVM*** cascading with ***DCA1000 EVM*** using Python. With the tool, real-time processing using Python to generate Range-Doppler and Range-Angle images under 1 Transmitter and 4 Receiver (in this version) setting without using mmWave studio is possible.
 
 ## Required Python packages
@@ -51,11 +51,17 @@ J. Yu, L. Yen and P. Tseng, "mmWave Radar-based Hand Gesture Recognition using R
 
 **BibTex Form**
 @INPROCEEDINGS{9128573,
+
   author={J. {Yu} and L. {Yen} and P. {Tseng}},
+
   booktitle={2020 IEEE 91st Vehicular Technology Conference (VTC2020-Spring)}, 
+  
   title={mmWave Radar-based Hand Gesture Recognition using Range-Angle Image}, 
+  
   year={2020},
-  volume={},
-  number={},
+  
   pages={1-5},
-  doi={10.1109/VTC2020-Spring48590.2020.9128573}}
+  
+  doi={10.1109/VTC2020-Spring48590.2020.9128573}
+  
+  }
