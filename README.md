@@ -46,6 +46,7 @@ Also grateful for the help from Mr. Chieh-Hsun Hsieh
 
 ## Credit: Cite This Tool
 The tool is related to the real-time prototyping of the following paper:
+
 J. Yu, L. Yen and P. Tseng, "mmWave Radar-based Hand Gesture Recognition using Range-Angle Image," 2020 IEEE 91st Vehicular Technology Conference (VTC2020-Spring), Antwerp, Belgium, 2020, pp. 1-5, doi: 10.1109/VTC2020-Spring48590.2020.9128573.
 
 **BibTex Form**
