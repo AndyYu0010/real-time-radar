@@ -72,6 +72,9 @@ def Range_Angle(data, mode=0, padding_size=None):
     window_2 = np.reshape(np.hanning(data.shape[0]), (-1, data.shape[0]))
     window = window_1 * window_2
     channel = data.shape[2]
+    if padding_size is None:
+        padding_size = data.shape
+        print(padding_size)
     for i in range(channel):
         data[:, :, i] = data[:, :, i] * window.T
 
