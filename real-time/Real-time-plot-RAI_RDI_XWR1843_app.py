@@ -79,10 +79,10 @@ def update_figure():
     updateTime = now
 
 def openradar():
-    global tt
-    tt = SerialConfig(name='ConnectRadar', CLIPort='COM4', BaudRate=115200)
-    tt.StopRadar()
-    tt.SendConfig('../config/IWR1843_cfg.cfg')
+    global radar_ctrl
+    radar_ctrl = SerialConfig(name='ConnectRadar', CLIPort='COM4', BaudRate=115200)
+    radar_ctrl.StopRadar()
+    radar_ctrl.SendConfig('../config/IWR1843_cfg.cfg')
     update_figure()
 
 def plot(cfg):
@@ -144,7 +144,7 @@ def plot(cfg):
     starbtn.clicked.connect(openradar)
     exitbtn.clicked.connect(app.instance().exit)
     app.instance().exec_()
-    tt.StopRadar()
+    radar_ctrl.StopRadar()
 
 
 
