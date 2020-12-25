@@ -93,8 +93,11 @@ class DataProcessor(th.Thread):
             data = self.bin_queue.get()
             data = np.reshape(data, [-1, 4])
             data = data[:, 0:2:] + 1j * data[:, 2::]
-            data = np.reshape(data, [self.chirp_num, -1, self.adc_sample])
+            data = np.reshape(data, [self.chirp_num * self.tx_num, -1, self.adc_sample])
             data = data.transpose([0, 2, 1])
+            ch1_data = data[0: 64: 2, :, :]
+            ch3_data = data[1: 64: 2, :, :]
+            data = np.concatenate([ch1_data, ch3_data], axis=2)
             frame_count += 1
             rdi = DSP.Range_Doppler(data, mode=1, padding_size=[128, 64])
             rai = DSP.Range_Angle(data, mode=1, padding_size=[128, 64, 32])

@@ -13,7 +13,7 @@ import socket
 # -----------------------------------------------
 from app_layout import Ui_MainWindow
 # -----------------------------------------------
-config = '../config/IWR1843_cfg.cfg'
+config = '../config/IWR6843_cfg.cfg'
 
 def send_cmd(code):
     # command code list
@@ -82,7 +82,7 @@ def openradar():
     global radar_ctrl
     radar_ctrl = SerialConfig(name='ConnectRadar', CLIPort='COM4', BaudRate=115200)
     radar_ctrl.StopRadar()
-    radar_ctrl.SendConfig('../config/IWR1843_cfg.cfg')
+    radar_ctrl.SendConfig('../config/IWR6843_cfg.cfg')
     update_figure()
 
 def plot(cfg):
