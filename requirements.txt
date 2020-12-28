@@ -12,7 +12,6 @@ grpcio==1.32.0
 h5py==2.10.0
 idna==2.10
 joblib==0.16.0
-Keras-Preprocessing==1.1.2
 kiwisolver==1.2.0
 Markdown==3.2.2
 matplotlib==3.2.2
@@ -34,11 +33,6 @@ rsa==4.6
 scikit-learn==0.23.2
 scipy==1.4.1
 six==1.15.0
-sklearn==0.0
-tensorboard==2.2.2
-tensorboard-plugin-wit==1.7.0
-tensorflow-gpu==2.2.0
-tensorflow-gpu-estimator==2.2.0
 termcolor==1.1.0
 threadpoolctl==2.1.0
 urllib3==1.25.10
