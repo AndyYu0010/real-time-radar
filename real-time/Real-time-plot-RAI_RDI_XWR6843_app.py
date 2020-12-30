@@ -72,15 +72,15 @@ def send_cmd(code):
 
 def update_figure():
     global img_rdi, img_rai, updateTime
-    img_rdi.setImage(RDIData.get()[:, :, 0].T, axis=1)
-    img_rai.setImage(RAIData.get()[0, :, :].T, axis=1)
+    img_rdi.setImage(RDIData.get()[:, :, 0].T)
+    img_rai.setImage(RAIData.get()[0, :, :].T)
     QtCore.QTimer.singleShot(1, update_figure)
     now = ptime.time()
     updateTime = now
 
 def openradar():
     global radar_ctrl
-    radar_ctrl = SerialConfig(name='ConnectRadar', CLIPort='COM4', BaudRate=115200)
+    radar_ctrl = SerialConfig(name='ConnectRadar', CLIPort='COM24', BaudRate=115200)
     radar_ctrl.StopRadar()
     radar_ctrl.SendConfig('../config/IWR6843_cfg.cfg')
     update_figure()
