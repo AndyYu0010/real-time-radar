@@ -73,7 +73,7 @@ def send_cmd(code):
 def update_figure():
     global img_rdi, img_rai, updateTime
     img_rdi.setImage(RDIData.get()[:, :, 0].T, axis=1)
-    img_rai.setImage(RAIData.get()[0, :, :].T, axis=1)
+    img_rai.setImage(np.rot90(RAIData.get()[0, :, :], 1), axis=1)
     QtCore.QTimer.singleShot(1, update_figure)
     now = ptime.time()
     updateTime = now
@@ -82,10 +82,10 @@ def openradar():
     global radar_ctrl
     radar_ctrl = SerialConfig(name='ConnectRadar', CLIPort='COM4', BaudRate=115200)
     radar_ctrl.StopRadar()
-    radar_ctrl.SendConfig('../config/IWR1843_cfg.cfg')
+    radar_ctrl.SendConfig(config)
     update_figure()
 
-def plot(cfg):
+def plot():
     global img_rdi, img_rai, updateTime
     #---------------------------------------------------
     app = QtWidgets.QApplication(sys.argv)
@@ -182,7 +182,7 @@ collector = UdpListener('Listener', BinData, frame_length, address, buff_size)
 processor = DataProcessor('Processor', radar_config, BinData, RDIData, RAIData)
 collector.start()
 processor.start()
-plotIMAGE = threading.Thread(target=plot(config))
+plotIMAGE = threading.Thread(target=plot())
 plotIMAGE.start()
 
 sockConfig.sendto(send_cmd('6'), FPGA_address_cfg)
