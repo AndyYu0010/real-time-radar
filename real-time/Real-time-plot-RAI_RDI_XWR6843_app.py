@@ -82,7 +82,7 @@ def openradar():
     global radar_ctrl
     radar_ctrl = SerialConfig(name='ConnectRadar', CLIPort='COM24', BaudRate=115200)
     radar_ctrl.StopRadar()
-    radar_ctrl.SendConfig('../config/IWR6843_cfg.cfg')
+    radar_ctrl.SendConfig(config)
     update_figure()
 
 def plot(cfg):
