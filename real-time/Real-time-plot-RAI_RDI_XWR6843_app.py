@@ -72,8 +72,8 @@ def send_cmd(code):
 
 def update_figure():
     global img_rdi, img_rai, updateTime
-    img_rdi.setImage(RDIData.get()[:, :, 0].T)
-    img_rai.setImage(RAIData.get()[0, :, :].T)
+    img_rdi.setImage(RDIData.get()[:, :, 0].T, levels=[0, 2.6e4])
+    img_rai.setImage(RAIData.get()[0, :, :].T, levels=[1.2e4, 4e6])
     QtCore.QTimer.singleShot(1, update_figure)
     now = ptime.time()
     updateTime = now
