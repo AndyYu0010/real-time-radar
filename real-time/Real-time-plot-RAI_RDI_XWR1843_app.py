@@ -12,8 +12,10 @@ import socket
 
 # -----------------------------------------------
 from app_layout import Ui_MainWindow
+
 # -----------------------------------------------
 config = '../config/IWR1843_cfg.cfg'
+
 
 def send_cmd(code):
     # command code list
@@ -78,6 +80,7 @@ def update_figure():
     now = ptime.time()
     updateTime = now
 
+
 def openradar():
     global radar_ctrl
     radar_ctrl = SerialConfig(name='ConnectRadar', CLIPort='COM4', BaudRate=115200)
@@ -85,20 +88,20 @@ def openradar():
     radar_ctrl.SendConfig('../config/IWR1843_cfg.cfg')
     update_figure()
 
+
 def plot(cfg):
     global img_rdi, img_rai, updateTime
-    #---------------------------------------------------
+    # ---------------------------------------------------
     app = QtWidgets.QApplication(sys.argv)
     MainWindow = QtWidgets.QMainWindow()
     MainWindow.show()
     ui = Ui_MainWindow()
     ui.setupUi(MainWindow)
-    view_rdi =ui.graphicsView.addViewBox()
-    view_rai =ui.graphicsView_2.addViewBox()
+    view_rdi = ui.graphicsView.addViewBox()
+    view_rai = ui.graphicsView_2.addViewBox()
     starbtn = ui.pushButton_start
     exitbtn = ui.pushButton_exit
-    #---------------------------------------------------
-
+    # ---------------------------------------------------
     # lock the aspect ratio so pixels are always square
     view_rdi.setAspectLocked(True)
     view_rai.setAspectLocked(True)
@@ -147,7 +150,6 @@ def plot(cfg):
     radar_ctrl.StopRadar()
 
 
-
 # Queue for access data
 BinData = Queue()
 RDIData = Queue()
@@ -189,7 +191,6 @@ sockConfig.sendto(send_cmd('6'), FPGA_address_cfg)
 sockConfig.close()
 collector.join(timeout=1)
 processor.join(timeout=1)
-
 
 print("Program close")
 sys.exit()
