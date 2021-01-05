@@ -85,7 +85,7 @@ def openradar():
     radar_ctrl.SendConfig(config)
     update_figure()
 
-def plot(cfg):
+def plot():
     global img_rdi, img_rai, updateTime
     #---------------------------------------------------
     app = QtWidgets.QApplication(sys.argv)
@@ -182,7 +182,7 @@ collector = UdpListener('Listener', BinData, frame_length, address, buff_size)
 processor = DataProcessor('Processor', radar_config, BinData, RDIData, RAIData)
 collector.start()
 processor.start()
-plotIMAGE = threading.Thread(target=plot(config))
+plotIMAGE = threading.Thread(target=plot())
 plotIMAGE.start()
 
 sockConfig.sendto(send_cmd('6'), FPGA_address_cfg)
