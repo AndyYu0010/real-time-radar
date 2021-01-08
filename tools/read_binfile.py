@@ -1,9 +1,31 @@
-# version: 1.0
+# version: 1.1
 
 import numpy as np
 
 
-def read_bin_file(file_name, config, mode=0):
+def remove_header(filename, packet_num):
+    """
+    for raw mmWave studio data use
+    :param filename: string
+                    Input file name
+
+    :param packet_num: int
+                    Number of Packet
+                    1441: 1 tx
+                    2881: 2 tx
+                    4322: 3 tx
+
+    """
+    bin_data = np.fromfile(filename, dtype=np.int16)
+    index = []
+    for i in range(packet_num):
+        j = i * 735
+        index.append([j, j + 1, j + 2, j + 3, j + 4, j + 5, j + 6])
+    output = np.delete(bin_data, index)
+    return output
+
+
+def read_bin_file(file_name, config, mode=0, header=True, packet_num=1443):
     """
     for bin data use
     :param file_name: string
@@ -22,12 +44,27 @@ def read_bin_file(file_name, config, mode=0):
                     0: XWR1443
                     1: XWR1843
 
+    :param header: Boolean, optional
+                    Remove studio UDP header
+                    True: remove
+                    False: don't remove
+
+    :param packet_num: int
+                    Number of Packet
+                    1441: 1 tx
+                    2881: 2 tx
+                    4322: 3 tx, default
+
     :return: complex array
                     Return data cube depends on mode
                     data cube [frame, chirp, sample, channel]
     """
     # Read file
-    data = np.fromfile(file_name, dtype=np.int16)
+    if header:
+        data = remove_header(file_name, packet_num)
+    else:
+        data = np.fromfile(file_name, dtype=np.int16)
+
     frame = config[0]
     sample = config[1]
     chirp = config[2]
@@ -85,3 +122,4 @@ def read_bin_file(file_name, config, mode=0):
 
     else:
         raise ValueError
+
