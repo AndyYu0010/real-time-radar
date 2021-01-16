@@ -9,13 +9,14 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtWidgets import QLabel, QLineEdit,QTextEdit
 from pyqtgraph import GraphicsLayoutWidget
 
 class Ui_MainWindow(object):
 
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(802, 468)
+        MainWindow.resize(1490, 720)
         font = QtGui.QFont()
         font.setFamily("MS Gothic")
         font.setPointSize(10)
@@ -24,13 +25,13 @@ class Ui_MainWindow(object):
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.graphicsView = GraphicsLayoutWidget(self.centralwidget)
-        self.graphicsView.setGeometry(QtCore.QRect(30, 60, 361, 331))
+        self.graphicsView.setGeometry(QtCore.QRect(30, 60, 700, 600))
         self.graphicsView.setObjectName("graphicsView")
         self.graphicsView_2 = GraphicsLayoutWidget(self.centralwidget)
-        self.graphicsView_2.setGeometry(QtCore.QRect(410, 60, 361, 331))
+        self.graphicsView_2.setGeometry(QtCore.QRect(760, 60, 700, 600))
         self.graphicsView_2.setObjectName("graphicsView_2")
         self.label = QtWidgets.QLabel(self.centralwidget)
-        self.label.setGeometry(QtCore.QRect(110, 20, 211, 41))
+        self.label.setGeometry(QtCore.QRect(310, 20, 250, 30))
         font = QtGui.QFont()
         font.setFamily("微軟正黑體 Light")
         font.setPointSize(14)
@@ -39,7 +40,7 @@ class Ui_MainWindow(object):
         self.label.setFont(font)
         self.label.setObjectName("label")
         self.label_2 = QtWidgets.QLabel(self.centralwidget)
-        self.label_2.setGeometry(QtCore.QRect(500, 20, 211, 41))
+        self.label_2.setGeometry(QtCore.QRect(940, 20, 200, 30))
         font = QtGui.QFont()
         font.setFamily("微軟正黑體 Light")
         font.setPointSize(14)
@@ -48,7 +49,7 @@ class Ui_MainWindow(object):
         self.label_2.setFont(font)
         self.label_2.setObjectName("label_2")
         self.pushButton_exit = QtWidgets.QPushButton(self.centralwidget)
-        self.pushButton_exit.setGeometry(QtCore.QRect(680, 410, 91, 31))
+        self.pushButton_exit.setGeometry(QtCore.QRect(1270, 670, 90, 30))
         font = QtGui.QFont()
         font.setFamily("微軟正黑體 Light")
         font.setBold(True)
@@ -58,14 +59,36 @@ class Ui_MainWindow(object):
         self.pushButton_exit.setObjectName("pushButton_exit")
 
         self.pushButton_start = QtWidgets.QPushButton(self.centralwidget)
-        self.pushButton_start.setGeometry(QtCore.QRect(30, 410, 151, 31))
+        self.pushButton_start.setGeometry(QtCore.QRect(30, 670, 150, 30))
         font = QtGui.QFont()
         font.setFamily("微軟正黑體 Light")
         font.setBold(True)
         font.setItalic(False)
-        font.setWeight(75)
+        font.setWeight(100)
         self.pushButton_start.setFont(font)
         self.pushButton_start.setObjectName("pushButton_start")
+
+        self.pushButton_save = QtWidgets.QPushButton(self.centralwidget)
+        self.pushButton_save.setGeometry(QtCore.QRect(480, 670, 100, 30))
+        font = QtGui.QFont()
+        font.setFamily("微軟正黑體 Light")
+        font.setBold(True)
+        font.setItalic(False)
+        font.setWeight(100)
+        self.pushButton_save.setFont(font)
+        self.pushButton_save.setObjectName("pushButton_save")
+
+        self.QLabel1 = QLabel(self.centralwidget)
+        self.QLabel1.setGeometry(QtCore.QRect(200, 670, 150, 30))
+        self.QLabel1.setText("Save Filename : ")
+        self.QLabel1.setFont(font)
+        self.QLabel1.setObjectName("Qlabel_save")
+
+        self.textEdit = QTextEdit(self.centralwidget)
+        self.textEdit.setGeometry(QtCore.QRect(320, 670, 150, 30))
+        self.textEdit.setFont(font)
+        self.textEdit.setObjectName("textEdit_save")
+
         MainWindow.setCentralWidget(self.centralwidget)
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
         self.statusbar.setObjectName("statusbar")
@@ -81,4 +104,5 @@ class Ui_MainWindow(object):
         self.label_2.setText(_translate("MainWindow", "Range-Angle Image"))
         self.pushButton_exit.setText(_translate("MainWindow", "Exit"))
         self.pushButton_start.setText(_translate("MainWindow", "Send Radar Config"))
+        self.pushButton_save.setText(_translate("MainWindow", "Save"))
 

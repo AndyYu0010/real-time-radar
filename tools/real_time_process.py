@@ -56,7 +56,7 @@ class UdpListener(th.Thread):
 
 
 class DataProcessor(th.Thread):
-    def __init__(self, name, config, bin_queue, rdi_queue, rai_queue):
+    def __init__(self, name, config, bin_queue, rdi_queue, rai_queue, raw_data_queue):
         """
         :param name: str
                         Object name
@@ -77,6 +77,8 @@ class DataProcessor(th.Thread):
         :param rai_queue: queue object
                         A queue for store RDI
 
+        :param raw_data_queue: queue object
+                        A queue for store raw adc data
         """
         th.Thread.__init__(self, name=name)
         self.adc_sample = config[0]
@@ -86,6 +88,7 @@ class DataProcessor(th.Thread):
         self.bin_queue = bin_queue
         self.rdi_queue = rdi_queue
         self.rai_queue = rai_queue
+        self.raw_data_queue = raw_data_queue
 
     def run(self):
         frame_count = 0
@@ -95,8 +98,10 @@ class DataProcessor(th.Thread):
             data = data[:, 0:2:] + 1j * data[:, 2::]
             data = np.reshape(data, [self.chirp_num, -1, self.adc_sample])
             data = data.transpose([0, 2, 1])
+            self.raw_data_queue.put(data)
+            raw_data = data
             frame_count += 1
-            rdi = DSP.Range_Doppler(data, mode=1, padding_size=[128, 64])
-            rai = DSP.Range_Angle(data, mode=1, padding_size=[128, 64, 32])
+            rdi = DSP.Range_Doppler(raw_data, mode=1, padding_size=[128, 64])
+            rai = DSP.Range_Angle(raw_data, mode=1, padding_size=[128, 64, 32])
             self.rdi_queue.put(rdi)
             self.rai_queue.put(rai)

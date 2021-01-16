@@ -1,6 +1,6 @@
 from real_time_process import UdpListener, DataProcessor
 from radar_config import SerialConfig
-from queue import Queue
+from queue import Queue, LifoQueue
 import pyqtgraph as pg
 import pyqtgraph.ptime as ptime
 from pyqtgraph.Qt import QtCore, QtGui, QtWidgets
@@ -9,13 +9,15 @@ import threading
 import time
 import sys
 import socket
+import os
 
+# app layout
 # -----------------------------------------------
 from app_layout import Ui_MainWindow
-
 # -----------------------------------------------
+# radar config
 config = '../config/IWR1843_cfg.cfg'
-
+# -----------------------------------------------
 
 def send_cmd(code):
     # command code list
@@ -73,42 +75,58 @@ def send_cmd(code):
 
 
 def update_figure():
-    global img_rdi, img_rai, updateTime
     img_rdi.setImage(RDIData.get()[:, :, 0].T, axis=1)
     img_rai.setImage(np.rot90(RAIData.get()[0, :, :], 1), axis=1)
     QtCore.QTimer.singleShot(1, update_figure)
-    now = ptime.time()
-    updateTime = now
 
 
-def openradar():
+def save_frame():
+    global save_filename, Main_Window
+    data = RAWData.get()
+    name = save_filename.toPlainText()
+    RAWData.queue.clear()
+    print("Save current frame")
+    folder_path = '../data/'
+    if os.path.isdir(folder_path):
+        np.save(folder_path + name, data)
+    else:
+        os.mkdir(folder_path)
+        np.save(folder_path + name, data)
+
+
+def open_radar():
     global radar_ctrl
-    radar_ctrl = SerialConfig(name='ConnectRadar', CLIPort='COM4', BaudRate=115200)
-    radar_ctrl.StopRadar()
-    radar_ctrl.SendConfig(config)
-    update_figure()
-
+    try:
+        radar_ctrl = SerialConfig(name='ConnectRadar', CLIPort='COM4', BaudRate=115200)
+        radar_ctrl.StopRadar()
+        radar_ctrl.SendConfig(config)
+        update_figure()
+    except ValueError:
+        print("Oops! System is break!")
 
 
 def plot():
-    global img_rdi, img_rai, updateTime
-    # ---------------------------------------------------
+    global Main_Window, img_rdi, img_rai, updateTime, save_filename
+    # -----------------------------------------------
     app = QtWidgets.QApplication(sys.argv)
-    MainWindow = QtWidgets.QMainWindow()
-    MainWindow.show()
+    Main_Window = QtWidgets.QMainWindow()
+    Main_Window.show()
     ui = Ui_MainWindow()
-    ui.setupUi(MainWindow)
+    ui.setupUi(Main_Window)
     view_rdi = ui.graphicsView.addViewBox()
     view_rai = ui.graphicsView_2.addViewBox()
-    starbtn = ui.pushButton_start
-    exitbtn = ui.pushButton_exit
-    # ---------------------------------------------------
+    start_button = ui.pushButton_start
+    save_button = ui.pushButton_save
+    exit_button = ui.pushButton_exit
+    save_filename = ui.textEdit
     # lock the aspect ratio so pixels are always square
+    # -----------------------------------------------
     view_rdi.setAspectLocked(True)
     view_rai.setAspectLocked(True)
     img_rdi = pg.ImageItem(border='w')
     img_rai = pg.ImageItem(border='w')
     # Colormap
+    # -----------------------------------------------
     position = np.arange(64)
     position = position / 64
     position[0] = 0
@@ -144,9 +162,9 @@ def plot():
     view_rdi.setRange(QtCore.QRectF(0, 0, 128, 64))
     view_rai.setRange(QtCore.QRectF(0, 0, 32, 64))
     updateTime = ptime.time()
-
-    starbtn.clicked.connect(openradar)
-    exitbtn.clicked.connect(app.instance().exit)
+    start_button.clicked.connect(open_radar)
+    save_button.clicked.connect(save_frame)
+    exit_button.clicked.connect(app.instance().exit)
     app.instance().exec_()
     radar_ctrl.StopRadar()
 
@@ -155,6 +173,7 @@ def plot():
 BinData = Queue()
 RDIData = Queue()
 RAIData = Queue()
+RAWData = LifoQueue()
 # Radar config
 adc_sample = 64
 chirp = 32
@@ -182,7 +201,7 @@ for k in range(5):
     # print('receive command:', msg.hex())
 
 collector = UdpListener('Listener', BinData, frame_length, address, buff_size)
-processor = DataProcessor('Processor', radar_config, BinData, RDIData, RAIData)
+processor = DataProcessor('Processor', radar_config, BinData, RDIData, RAIData, RAWData)
 collector.start()
 processor.start()
 plotIMAGE = threading.Thread(target=plot())
