@@ -32,7 +32,7 @@ Execute by the following steps:
    3. Check the host IP is 192.168.33.30, and the program is allowed to through the firewall.
    4. Execute IWR1843_real_time_plot_RDI_RAI_app.py
    5. Click the "Send Radar Config" button to start the real-time plotting.
-
+   6. Click "Save" button to save current frame raw adc data.
 ## Demo 
 ![](Demo.PNG)
 * Demo Video: https://youtu.be/Z6rTQDMe6a4
