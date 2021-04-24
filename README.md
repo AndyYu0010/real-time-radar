@@ -51,11 +51,11 @@ The tool is related to the real-time prototyping of the following paper:
 J. Yu, L. Yen and P. Tseng, "mmWave Radar-based Hand Gesture Recognition using Range-Angle Image," 2020 IEEE 91st Vehicular Technology Conference (VTC2020-Spring), Antwerp, Belgium, 2020, pp. 1-5, doi: 10.1109/VTC2020-Spring48590.2020.9128573.
 
 **BibTex Form**
-@INPROCEEDINGS{9128573,
-  author={J. {Yu} and L. {Yen} and P. {Tseng}},
-  booktitle={2020 IEEE 91st Vehicular Technology Conference (VTC2020-Spring)}, 
-  title={mmWave Radar-based Hand Gesture Recognition using Range-Angle Image}, 
-  year={2020},
-  pages={1-5},
-  doi={10.1109/VTC2020-Spring48590.2020.9128573}
-  }
+@INPROCEEDINGS{9128573, \
+  author={J. {Yu} and L. {Yen} and P. {Tseng}}, \
+  booktitle={2020 IEEE 91st Vehicular Technology Conference (VTC2020-Spring)}, \
+  title={mmWave Radar-based Hand Gesture Recognition using Range-Angle Image}, \
+  year={2020}, \
+  pages={1-5}, \
+  doi={10.1109/VTC2020-Spring48590.2020.9128573} \
+}
