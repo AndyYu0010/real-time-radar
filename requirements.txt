@@ -11,7 +11,7 @@ google-pasta==0.2.0
 grpcio==1.32.0
 h5py==2.10.0
 idna==2.10
-joblib==0.16.0
+joblib==1.2.0
 kiwisolver==1.2.0
 Markdown==3.2.2
 matplotlib==3.2.2
